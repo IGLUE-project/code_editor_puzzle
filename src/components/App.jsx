@@ -1,21 +1,19 @@
 import React from 'react';
 import {useState, useEffect, useRef, useContext } from 'react';
 import { GlobalContext } from "./GlobalContext";
-import './../assets/scss/app.scss';
+ 
 
-import { DEFAULT_APP_SETTINGS, SKIN_SETTINGS_RETRO, SKIN_SETTINGS_FUTURISTIC, ESCAPP_CLIENT_SETTINGS, MAIN_SCREEN, MESSAGE_SCREEN } from '../constants/constants.jsx';
+import { DEFAULT_APP_SETTINGS, ESCAPP_CLIENT_SETTINGS, MAIN_SCREEN, MESSAGE_SCREEN } from '../constants/constants.jsx';
 import MainScreen from './MainScreen.jsx';
-import MessageScreen from './MessageScreen.jsx';
-
+ 
 export default function App() {
   const { escapp, setEscapp, appSettings, setAppSettings, Storage, setStorage, Utils, I18n } = useContext(GlobalContext);
   const hasExecutedEscappValidation = useRef(false);
   const [loading, setLoading] = useState(true);
-  const [screen, setScreen] = useState(MAIN_SCREEN);
+  const [screen, setScreen] = useState(MAIN_SCREEN); 
   const prevScreen = useRef(screen);
   const solution = useRef(null);
-  const [appWidth, setAppWidth] = useState(0);
-  const [appHeight, setAppHeight] = useState(0);
+ 
   
   useEffect(() => {
     //Init Escapp client
@@ -35,66 +33,27 @@ export default function App() {
     setAppSettings(_appSettings);
     Utils.log("App settings:", _appSettings);
 
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    }
+    
   }, []);
 
   function processAppSettings(_appSettings){
     if(typeof _appSettings !== "object"){
       _appSettings = {};
     }
-
-    let skinSettings;
-    switch(_appSettings.skin){
-      case "RETRO":
-        skinSettings = SKIN_SETTINGS_RETRO;
-        break;
-      case "FUTURISTIC":
-        skinSettings = SKIN_SETTINGS_FUTURISTIC;
-        break;
-      default:
-        skinSettings = {};
-    }
-    let DEFAULT_APP_SETTINGS_SKIN = Utils.deepMerge(DEFAULT_APP_SETTINGS, skinSettings);
- 
-     // Merge _appSettings with DEFAULT_APP_SETTINGS_SKIN to obtain final app settings
-    _appSettings = Utils.deepMerge(DEFAULT_APP_SETTINGS_SKIN, _appSettings);
+     
     
+  
+     // Merge _appSettings with DEFAULT_APP_SETTINGS_SKIN to obtain final app settings
+     
     const allowedActions = ["NONE", "SHOW_MESSAGE"];
     if(!allowedActions.includes(_appSettings.actionAfterSolve)) {
       _appSettings.actionAfterSolve = DEFAULT_APP_SETTINGS.actionAfterSolve;
     }
 
-    switch(_appSettings.keysType){
-      case "LETTERS":
-        _appSettings.keys = _appSettings.letters;
-        _appSettings.backgroundKeys = new Array(12).fill(_appSettings.backgroundKey);
-        break;
-      case "COLORS":
-        _appSettings.keys = _appSettings.colors;
-        _appSettings.backgroundKeys = _appSettings.coloredBackgroundKeys;
-        break;
-      case "SYMBOLS":
-        _appSettings.keys = _appSettings.symbols;
-        if((_appSettings.skin === "FUTURISTIC")&&(_appSettings.backgroundKey === "images/background_key_futuristic.png")){
-          _appSettings.backgroundKey = "images/background_key_futuristic_black.png";
-        }
-        _appSettings.backgroundKeys = new Array(12).fill(_appSettings.backgroundKey);
-        break;
-      default:
-        //NUMBERS
-        _appSettings.keys = _appSettings.numbers;
-        _appSettings.backgroundKeys = new Array(12).fill(_appSettings.backgroundKey);
-    }
+     
 
     //Init internacionalization module
     I18n.init(_appSettings);
-
-    if(typeof _appSettings.message !== "string"){
-      _appSettings.message = I18n.getTrans("i.message");
-    }
 
     //Change HTTP protocol to HTTPs in URLs if necessary
     _appSettings = Utils.checkUrlProtocols(_appSettings);
@@ -147,24 +106,7 @@ export default function App() {
     }
   }, [escapp, appSettings, Storage]);
 
-  useEffect(() => {
-    if(loading === false){
-      handleResize();
-    }
-  }, [loading]);
-
-  useEffect(() => {
-    if (screen !== prevScreen.current) {
-      Utils.log("Screen ha cambiado de", prevScreen.current, "a", screen);
-      prevScreen.current = screen;
-      saveAppState();
-    }
-  }, [screen]);
-
-  function handleResize(){
-    setAppWidth(window.innerWidth);
-    setAppHeight(window.innerHeight);
-  }
+   
 
   function restoreAppState(erState){
     Utils.log("Restore application state based on escape room state:", erState);
@@ -203,32 +145,8 @@ export default function App() {
     }
   }
 
-  function onKeypadSolved(_solution){
-    Utils.log("onKeypadSolved with solution:", _solution);
-    if(typeof _solution !== "string"){
-      return;
-    }
-    solution.current = _solution;
 
-    switch(appSettings.actionAfterSolve){
-      case "SHOW_MESSAGE":
-        return setScreen(MESSAGE_SCREEN);
-      case "NONE":
-      default:
-        return submitPuzzleSolution();
-    }
-  }
 
-  function submitPuzzleSolution(){
-    Utils.log("Submit puzzle solution", solution.current);
-
-    escapp.submitNextPuzzle(solution.current, {}, (success, erState) => {
-      if(!success){
-        setScreen(MAIN_SCREEN);
-      }
-      Utils.log("Solution submitted to Escapp", solution.current, success, erState);
-    });
-  }
 
   const renderScreens = (screens) => {
     if (loading === true) {
@@ -251,11 +169,7 @@ export default function App() {
   let screens = [
     {
       id: MAIN_SCREEN,
-      content: <MainScreen appHeight={appHeight} appWidth={appWidth} onKeypadSolved={onKeypadSolved} />
-    },
-    {
-      id: MESSAGE_SCREEN,
-      content: <MessageScreen appHeight={appHeight} appWidth={appWidth} submitPuzzleSolution={submitPuzzleSolution} />
+      content: <MainScreen />
     }
   ];
 

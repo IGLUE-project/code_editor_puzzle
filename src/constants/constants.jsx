@@ -1,128 +1,109 @@
-export const DEFAULT_APP_SETTINGS = {
-  skin: "STANDARD",
-  actionAfterSolve: "NONE",
-  message: undefined,
-  keysType: "NUMBERS",
-  background: "images/background.png",
-  backgroundKeypad: "images/background_keypad.png",
-  backgroundKey: "images/background_key.png",
-  numbers: ["1","2","3","4","5","6","7","8","9","✱","0","#"],
-  letters: ["A","B","C","D","E","F","G","H","I","J","K","L"],
-  colors : [
-    "Red", //#FF0000
-    "Green", //#008000
-    "Blue", //#0000FF
-    "Yellow", //#FFFF00
-    "Orange", //#FFA500
-    "Pink", //#FF1493
-    "Cyan", //#00FFFF
-    "Purple", //#800080
-    "Brown", //#8B4513
-    "Black", //#000000
-    "Gray", //#808080
-    "White", //#FFFFFF
-  ],
-  coloredBackgroundKeys: [
-    "images/background_key_red.png",
-    "images/background_key_green.png",
-    "images/background_key_blue.png",
-    "images/background_key_yellow.png",
-    "images/background_key_orange.png",
-    "images/background_key_pink.png",
-    "images/background_key_cyan.png",
-    "images/background_key_purple.png",
-    "images/background_key_brown.png",
-    "images/background_key.png",
-    "images/background_key_gray.png",
-    "images/background_key_white.png",
-  ],
-  symbols: [
-    "Triangle",
-    "Square",
-    "Circle",
-    "Rhombus",
-    "Spades",
-    "Hearts",
-    "Clubs",
-    "Diamonds",
-    "Star",
-    "Moon",
-    "Sun",
-    "Puzzle",
-  ],
-  symbolsBackgroundKeys: [
-    "images/symbol_triangle.png",
-    "images/symbol_square.png",
-    "images/symbol_circle.png",
-    "images/symbol_rhombus.png",
-    "images/symbol_ace_spades.png",
-    "images/symbol_ace_hearts.png",
-    "images/symbol_ace_clubs.png",
-    "images/symbol_ace_diamonds.png",
-    "images/symbol_star.png",
-    "images/symbol_moon.png",
-    "images/symbol_sun.png",
-    "images/symbol_puzzle.png",
-  ],
-  backgroundMessage: "images/background_message.png",
-  imageLightOff: "images/light_off.png",
-  imageLightNok: "images/light_nok.png",
-  imageLightOk: "images/light_ok.png",
-  soundBeep: "sounds/beep.mp3",
-  soundNok: "sounds/solution_nok.mp3",
-  soundOk: "sounds/solution_ok.mp3",
-};
+//Copy this file to config.js and specify your own settings
 
-export const SKIN_SETTINGS_RETRO = {
-  background: "images/background_retro.png",
-  backgroundKeypad: "images/background_keypad_retro.png",
-  backgroundKey: "images/background_key_retro.png",
-  coloredBackgroundKeys: [
-    "images/background_key_retro_red.png",
-    "images/background_key_retro_green.png",
-    "images/background_key_retro_blue.png",
-    "images/background_key_retro_yellow.png",
-    "images/background_key_retro_orange.png",
-    "images/background_key_retro_pink.png",
-    "images/background_key_retro_cyan.png",
-    "images/background_key_retro_purple.png",
-    "images/background_key_retro_brown.png",
-    "images/background_key_retro_black.png",
-    "images/background_key_retro_gray.png",
-    "images/background_key_retro_white.png",
-  ],
-  backgroundMessage: "images/background_message_retro.png",
-  imageLightOff: "images/light_off_retro.png",
-  imageLightNok: "images/light_off_retro.png",
-  imageLightOk: "images/light_ok_retro.png",
-  soundBeep: "sounds/beep_retro.wav",
-  soundNok: "sounds/solution_nok_retro.wav",
-  soundOk: "sounds/solution_ok_retro.wav",
-};
+export let DEFAULT_APP_SETTINGS = {
+  locale:"es",
+  theme: "dark",
+  mainTitleText: "",
+  files: {
+    "/index.html": {
+      active: true,
+      readOnly: true,
+      code: `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
 
-export const SKIN_SETTINGS_FUTURISTIC = {
-  background: "images/background_futuristic.png",
-  backgroundKeypad: "images/background_keypad_futuristic.png",
-  backgroundKey: "images/background_key_futuristic.png",
-  coloredBackgroundKeys: [
-    "images/background_key_futuristic_red.png",
-    "images/background_key_futuristic_green.png",
-    "images/background_key_futuristic_blue.png",
-    "images/background_key_futuristic_yellow.png",
-    "images/background_key_futuristic_orange.png",
-    "images/background_key_futuristic_pink.png",
-    "images/background_key_futuristic_cyan.png",
-    "images/background_key_futuristic_purple.png",
-    "images/background_key_futuristic_brown.png",
-    "images/background_key_futuristic_black.png",
-    "images/background_key_futuristic_gray.png",
-    "images/background_key_futuristic_white.png",
-  ],
-  backgroundMessage: "images/background_message_futuristic.png",
-  imageLightOff: "images/light_off_futuristic.png",
-  imageLightNok: "images/light_nok_futuristic.png",
-  imageLightOk: "images/light_ok_futuristic.png",
-  soundNok: "sounds/solution_nok_futuristic.wav",
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1>Counter</h1>
+    <p id="value">0</p>
+    <button id="inc">Increment</button>
+    <script type="module" src="/index.js"></script>
+  </body>
+</html>`
+    },
+    "/styles.css": {
+      code: `body { 
+  font-family: system-ui, sans-serif; 
+  padding: 2rem;
+  max-width: 400px;
+  margin: 0 auto;
+}
+button { 
+  padding: .5rem 1rem;
+  background: #0066cc;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+button:hover {
+  background: #0052a3;
+}
+#value { 
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+}`
+    },
+    "/index.js": {
+      code: `// Utility functions (exported for testing)
+export function add(a, b) { 
+  return a + b; 
+}
+
+export function multiply(a, b) {
+  return a * b;
+}
+
+// Counter application
+let v = 0;
+const el = document.getElementById('value');
+const btn = document.getElementById('inc');
+
+function render() { 
+  if (el) {
+    el.textContent = String(v);
+  }
+}
+
+if (btn) {
+  btn.addEventListener('click', () => {
+    v = add(v, 1); // Using our add function
+    render();
+  });
+}
+
+render();`
+    },
+    "/utils.test.js": {
+      readOnly: false,
+       hidden: true,
+      code: `
+ test('clicking increment button should increase counter by 1', () => {
+  const valueEl = document.getElementById('value');
+  const incBtn = document.getElementById('inc');
+  
+  // Get current value
+  const initialValue = parseInt(valueEl.textContent);
+  
+  // Click the button
+  incBtn.click();
+  
+  // Check if value increased
+  const newValue = parseInt(valueEl.textContent);
+  expect(newValue).toBe(initialValue + 1);
+
+
+});
+
+
+ test('other', () => {
+    expect(2).toBe(2);
+  });`
+    }
+  }
 };
 
 export const ESCAPP_CLIENT_SETTINGS = {
